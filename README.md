@@ -11,6 +11,9 @@ Don’t bother with notes to the graders. Such notes go into your BrightSpace su
 Your homework submissions will consist of programs in the following languages. To keep things simple, there is a separate folder for each language.
 
 - **Homework 1 (Scripting)**: Lua, Python, JavaScript
+Group members : Callista Napitupulu, Kevin Thomas
+Implemented functions for change calculation, string processing, generators, and Quaternion operations for Lua, Python and JavaScript
+
 - **Homework 2 (Enterprise)**: Java, Kotlin, Swift
 - **Homework 3 (Theory)**: TypeScript, OCaml, Haskell
 - **Homework 4 (Systems)**: C, C++, Rust
