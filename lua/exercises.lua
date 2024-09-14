@@ -62,7 +62,7 @@ function meaningful_line_count(filename)
   
   local count = 0
   for line in file:lines() do
-      local trimmed_line = line:match("^%s*(.-)%s*$")  -- Trim spaces
+      local trimmed_line = line:match("^%s*(.-)%s*$")
       if #trimmed_line > 0 and trimmed_line:sub(1, 1) ~= "#" then
           count = count + 1
       end
