@@ -20,14 +20,14 @@ public class Exercises {
         return counts;
     }
 
-    // Write your first then lower case function here
+    // first then lower case function
     public static Optional<String> firstThenLowerCase(List<String> strings, Predicate<String> predicate) {
         return strings.stream()
-                .filter(predicate)  // Filter elements based on the given predicate
-                .findFirst()        // Find the first matching element
-                .map(String::toLowerCase);  // Convert the result to lowercase if present
+                .filter(predicate)  
+                .findFirst()        
+                .map(String::toLowerCase);  
     }
-    // Write your say function here
+    // say function 
     public static Say say() {
         return new Say("");
     }
@@ -53,7 +53,7 @@ public class Exercises {
         }
     }
 
-    // Write your line count function here
+    // line count function
     public static long meaningfulLineCount(String filename) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             return reader.lines()
@@ -63,7 +63,7 @@ public class Exercises {
     }
 }
 
-// Write your Quaternion record class here
+// Quaternion record class 
 record Quaternion(double a, double b, double c, double d) {
     
     public static final Quaternion ZERO = new Quaternion(0, 0, 0, 0);
@@ -184,7 +184,7 @@ record Quaternion(double a, double b, double c, double d) {
         return ret;
     }
 }
-// Write your BinarySearchTree sealed interface and its implementations here
+//  BinarySearchTree sealed interface and its implementations 
 abstract sealed class BinarySearchTree permits Empty, Node {
 
     abstract int size();
@@ -214,12 +214,12 @@ final class Empty extends BinarySearchTree {
 
     @Override
     BinarySearchTree insert(String value) {
-        return new Node(value, INSTANCE, INSTANCE); // Return a new Node with Empty children
+        return new Node(value, INSTANCE, INSTANCE); 
     }
 
     @Override
     public String toString() {
-        return "()"; // Empty node represented as ()
+        return "()"; 
     }
 }
 
