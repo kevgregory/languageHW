@@ -15,12 +15,12 @@ func change(_ amount: Int) -> Result<[Int:Int], NegativeAmountError> {
     return .success(counts)
 }
 
-// Write your first then lower case function here
+// first then lower case function here
 func firstThenLowerCase(of array: [String], satisfying predicate: (String) -> Bool) -> String? {
     return array.first(where: predicate)?.lowercased()
 }
 
-// Write your say function here
+// say function here
 class Say {
     private var words: [String]
 
@@ -43,7 +43,7 @@ func say(_ word: String = "") -> Say {
     return Say(word)
 }
 
-// Write your meaningfulLineCount function here
+// meaningfulLineCount function here
 enum FileError: Error {
     case fileNotFound
 }
@@ -70,7 +70,7 @@ func meaningfulLineCount(_ filename: String) async -> Result<Int, Error> {
     }
 }
 
-// Write your Quaternion struct here
+//  Quaternion struct here
 struct Quaternion : CustomStringConvertible {
     let a: Double
     let b: Double
@@ -160,7 +160,7 @@ func == (left: Quaternion, right: Quaternion) -> Bool {
          left.d == right.d)
 }
 
-// Write your Binary Search Tree enum here
+// Binary Search Tree enum here
 indirect enum BinarySearchTree: CustomStringConvertible {
     case empty
     case node(BinarySearchTree, String, BinarySearchTree)
