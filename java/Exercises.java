@@ -247,15 +247,15 @@ final class Node extends BinarySearchTree {
             return true;
         }
         if (value.compareTo(this.value) < 0) {
-            return left.contains(value); // Search the left subtree
+            return left.contains(value); 
         }
-        return right.contains(value); // Search the right subtree
+        return right.contains(value); 
     }
 
     @Override
     BinarySearchTree insert(String value) {
         if (this.value.equals(value)) {
-            return this; // If the value is already present, return this node (no duplicates)
+            return this; 
         }
         if (value.compareTo(this.value) < 0) {
             // If value is smaller, insert it in the left subtree
@@ -267,7 +267,6 @@ final class Node extends BinarySearchTree {
 
     @Override
     public String toString() {
-        // In-order traversal and clean up redundant empty nodes
         return String.format("(%s%s%s)", left, value, right).replace("()", "");
     }
 }
