@@ -15,8 +15,7 @@ module Exercises
     size,
     inorder,
     treeToString,
-    tree_52381,
-    g, gb, gbd,
+    fromList
     ) where
 
 import qualified Data.Map as Map
@@ -105,7 +104,7 @@ inorder (Node x left right) = inorder left ++ [x] ++ inorder right
 
 instance (Show a) => Show (BST a) where
     show = treeToString
-    
+
 treeToString :: (Show a) => BST a -> String
 treeToString Empty = "()"
 treeToString (Node x Empty Empty) = "(" ++ show x ++ ")"
@@ -113,14 +112,5 @@ treeToString (Node x left Empty) = "(" ++ treeToString left ++ show x ++ ")"
 treeToString (Node x Empty right) = "(" ++ show x ++ treeToString right ++ ")"
 treeToString (Node x left right) = "(" ++ treeToString left ++ show x ++ treeToString right ++ ")"
 
-g :: BST String
-g = insert "G" Empty
-
-gb :: BST String
-gb = insert "B" g
-
-gbd :: BST String
-gbd = insert "D" gb
-
-tree_52381 :: BST Int
-tree_52381 = foldr insert Empty [5, 2, 8, 3, 1]
+fromList :: (Ord a) => [a] -> BST a
+fromList = foldr insert Empty

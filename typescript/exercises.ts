@@ -13,7 +13,6 @@ export function change(amount: bigint): Map<bigint, bigint> {
   return counts
 }
 
-// First then apply function
 export function firstThenApply<T, U>(
   arr: T[],
   predicate: (value: T) => boolean,
@@ -22,7 +21,7 @@ export function firstThenApply<T, U>(
   const found = arr.find(predicate);
   return found !== undefined ? fn(found) : undefined;
 }
-// Powers Generator
+
 export function* powersGenerator(base: bigint): Generator<bigint> {
   let power = 0n;
   while (true) {
@@ -30,21 +29,24 @@ export function* powersGenerator(base: bigint): Generator<bigint> {
     power += 1n;
   }
 }
-// Line count function
+
 export async function meaningfulLineCount(filePath: string): Promise<number> {
   const fileHandle = await open(filePath, 'r');
   let count = 0;
 
-  for await (const line of fileHandle.readLines()) {
-    if (line.trim() !== '' && !line.trim().startsWith('#')) {
-      count++;
+  try {
+    for await (const line of fileHandle.readLines()) {
+      if (line.trim() !== '' && !line.trim().startsWith('#')) {
+        count++;
+      }
     }
+  } finally {
+    await fileHandle.close();
   }
 
   return count;
 }
 
-// Shape type + associated functions 
 export type Shape =
   | { kind: "Box"; width: number; length: number; depth: number }
   | { kind: "Sphere"; radius: number };
@@ -66,7 +68,7 @@ export function surfaceArea(shape: Shape): number {
       return 4 * Math.PI * shape.radius ** 2;
   }
 }
-// Binary Search Tree
+
 class Node<T> {
   constructor(
     public value: T,
@@ -97,7 +99,6 @@ export class Empty<T> extends BinarySearchTree<T> {
   }
 
   *inorder(): IterableIterator<T> {
-    // An empty tree yields nothing
   }
 
   toString(): string {

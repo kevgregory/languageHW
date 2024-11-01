@@ -12,29 +12,25 @@ let change amount =
     in
     aux amount denominations
 
-(* first then apply function *)
-let first_then_apply lst pred f =
+let first_then_apply (lst : 'a list) (pred : 'a -> bool) (f : 'a -> 'b option) : 'b option =
   let rec find_and_apply = function
     | [] -> None
-    | x :: xs -> if pred x then Some (f x) else find_and_apply xs
+    | x :: xs -> if pred x then f x else find_and_apply xs
   in
   find_and_apply lst
 
-(* powers generator *)
-let rec int_pow base exponent =
-  if exponent = 0 then 1
-  else base * int_pow base (exponent - 1)
+let rec int_pow (base : int) (exponent : int) : int =
+  if exponent = 0 then 1 else base * int_pow base (exponent - 1)
 
-let powers_generator base =
-  let rec aux n =
+let powers_generator (base : int) : int Seq.t =
+  let rec aux (n : int) : int Seq.node =
     Seq.Cons (int_pow base n, fun () -> aux (n + 1))
   in
-  aux 0
+  fun () -> aux 0
 
-(* line count function *)
-let meaningful_line_count filename =
-  let count_lines ic =
-    let rec aux count =
+let meaningful_line_count (filename : string) : int =
+  let count_lines (ic : in_channel) : int =
+    let rec aux (count : int) : int =
       try
         let line = input_line ic in
         let trimmed_line = String.trim line in
@@ -49,42 +45,46 @@ let meaningful_line_count filename =
   let ic = open_in filename in
   Fun.protect (fun () -> count_lines ic) ~finally:(fun () -> close_in ic)
 
-(* shape type and associated functions *)
 type shape =
   | Sphere of float
   | Box of float * float * float
 
-let volume = function
+let volume (s : shape) : float =
+  match s with
   | Sphere r -> (4.0 /. 3.0) *. Float.pi *. (r ** 3.0)
   | Box (l, w, h) -> l *. w *. h
 
-let surface_area = function
+let surface_area (s : shape) : float =
+  match s with
   | Sphere r -> 4.0 *. Float.pi *. (r ** 2.0)
   | Box (l, w, h) -> 2.0 *. (l *. w +. w *. h +. h *. l)
 
-(* binary search tree implementation *)
 type 'a bst =
   | Empty
   | Node of 'a * 'a bst * 'a bst
 
-let rec insert x = function
+let rec insert (x : 'a) (tree : 'a bst) : 'a bst =
+  match tree with
   | Empty -> Node (x, Empty, Empty)
-  | Node (y, left, right) as node ->
+  | Node (y, left, right) ->
       if x < y then Node (y, insert x left, right)
       else if x > y then Node (y, left, insert x right)
-      else node
+      else tree
 
-let rec contains x = function
+let rec contains (x : 'a) (tree : 'a bst) : bool =
+  match tree with
   | Empty -> false
   | Node (y, left, right) ->
       if x = y then true
       else if x < y then contains x left
       else contains x right
 
-let rec size = function
+let rec size (tree : 'a bst) : int =
+  match tree with
   | Empty -> 0
   | Node (_, left, right) -> 1 + size left + size right
 
-let rec inorder = function
+let rec inorder (tree : 'a bst) : 'a list =
+  match tree with
   | Empty -> []
   | Node (y, left, right) -> inorder left @ [y] @ inorder right
