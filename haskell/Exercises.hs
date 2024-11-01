@@ -1,6 +1,22 @@
 module Exercises
     ( change,
-      -- put the proper exports here
+    firstThenApply,
+    lower,
+    lengthOverThree,
+    powers,
+    volume,
+    surfaceArea,
+    Shape(..),
+    is_approx,
+    meaningfulLineCount,
+    BST(Empty),
+    insert,
+    contains,
+    size,
+    inorder,
+    treeToString,
+    tree_52381,
+    g, gb, gbd,
     ) where
 
 import qualified Data.Map as Map
@@ -20,12 +36,91 @@ change amount
                 (count, newRemaining) = remaining `divMod` d
                 newCounts = Map.insert d count counts
 
--- Write your first then apply function here
+firstThenApply :: [a] -> (a -> Bool) -> (a -> b) -> Maybe b
+firstThenApply xs p f = f <$> find p xs
 
--- Write your infinite powers generator here
+lower :: String -> String
+lower = map convertToLower
+  where
+    convertToLower c
+      | 'A' <= c && c <= 'Z' = toEnum (fromEnum c + 32)
+      | otherwise = c
 
--- Write your line count function here
+lengthOverThree :: String -> Bool
+lengthOverThree s = length s > 3
 
--- Write your shape data type here
+powers :: Integral a => a -> [a]
+powers base = map (base ^) [0..]
 
--- Write your binary search tree algebraic type here
+meaningfulLineCount :: FilePath -> IO Int
+meaningfulLineCount path = do
+    content <- readFile path
+    let linesList = lines content
+    return $ length $ filter isValidLine linesList
+
+isValidLine :: String -> Bool
+isValidLine line = not (null line) && not (all isSpace line) && not (isComment line)
+
+isComment :: String -> Bool
+isComment line = case dropWhile isSpace line of
+                    ('#':_) -> True
+                    _       -> False
+
+data Shape = Box Double Double Double | Sphere Double deriving (Eq, Show)
+
+volume :: Shape -> Double
+volume (Box w h d) = w * h * d
+volume (Sphere r) = (4 / 3) * pi * r^3
+
+surfaceArea :: Shape -> Double
+surfaceArea (Box w h d) = 2 * (w * h + h * d + d * w)
+surfaceArea (Sphere r) = 4 * pi * r^2
+
+is_approx :: Double -> Double -> Bool
+is_approx a b = abs (a - b) < 1e-9
+
+data BST a = Empty | Node a (BST a) (BST a) deriving Eq
+
+insert :: (Ord a) => a -> BST a -> BST a
+insert x Empty = Node x Empty Empty
+insert x (Node y left right)
+    | x < y     = Node y (insert x left) right
+    | x > y     = Node y left (insert x right)
+    | otherwise = Node y left right
+
+contains :: (Ord a) => a -> BST a -> Bool
+contains _ Empty = False
+contains x (Node y left right)
+    | x < y     = contains x left
+    | x > y     = contains x right
+    | otherwise = True
+
+size :: BST a -> Int
+size Empty = 0
+size (Node _ left right) = 1 + size left + size right
+
+inorder :: BST a -> [a]
+inorder Empty = []
+inorder (Node x left right) = inorder left ++ [x] ++ inorder right
+
+instance (Show a) => Show (BST a) where
+    show = treeToString
+    
+treeToString :: (Show a) => BST a -> String
+treeToString Empty = "()"
+treeToString (Node x Empty Empty) = "(" ++ show x ++ ")"
+treeToString (Node x left Empty) = "(" ++ treeToString left ++ show x ++ ")"
+treeToString (Node x Empty right) = "(" ++ show x ++ treeToString right ++ ")"
+treeToString (Node x left right) = "(" ++ treeToString left ++ show x ++ treeToString right ++ ")"
+
+g :: BST String
+g = insert "G" Empty
+
+gb :: BST String
+gb = insert "B" g
+
+gbd :: BST String
+gbd = insert "D" gb
+
+tree_52381 :: BST Int
+tree_52381 = foldr insert Empty [5, 2, 8, 3, 1]
